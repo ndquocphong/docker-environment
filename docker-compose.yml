@@ -1,0 +1,79 @@
+version: "3"
+services:
+  sftp:
+    image: atmoz/sftp
+    container_name: sftp
+    privileged: true
+    ports:
+      - "8022:22"
+    command: "sftp:pass:33:33:upload"
+    volumes:
+      - "www-data:/home/sftp/upload"
+
+  php-apache-7.0:
+    image: "php-apache-7.0"
+    build: ./php-apache/7.0
+    container_name: "php-apache-7.0"
+    dns: "8.8.4.4"
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-apache-7.1:
+    image: "php-apache-7.1"
+    build: ./php-apache/7.1
+    container_name: "php-apache-7.1"
+    dns: "8.8.4.4"
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"     
+
+  php-apache-7.2:
+    image: "php-apache-7.2"
+    build: ./php-apache/7.2
+    container_name: "php-apache-7.2"
+    dns: "8.8.4.4"
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"         
+
+  mysql-5.7:
+    image: mysql:5.7
+    container_name: mysql-5.7
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "mysql-5.7-data:/var/lib/mysql"
+      
+  mysql-8.0:
+    image: mysql:8.0
+    container_name: mysql-8.0
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "mysql-8.0-data:/var/lib/mysql"    
+
+volumes:
+  www-data:
+  mysql-5.7-data:
+  mysql-8.0-data:

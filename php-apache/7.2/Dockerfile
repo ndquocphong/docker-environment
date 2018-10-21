@@ -4,7 +4,7 @@ FROM php:7.2-apache
 RUN apt-get update -y && apt install -y apt-utils
 
 # common
-RUN apt-get install -y zip unzip curl zlib1g-dev g++ libcurl4-gnutls-dev libpq-dev git vim mysql-client rsync sshpass bzip2 msmtp
+RUN apt-get install -y sudo zip unzip curl zlib1g-dev g++ libcurl4-gnutls-dev libpq-dev git vim mysql-client rsync sshpass bzip2 msmtp
 
 # ssh2
 RUN apt-get install -y libssh2-1-dev libssh2-1

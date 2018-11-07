@@ -56,7 +56,7 @@ RUN pecl install redis xdebug
 RUN docker-php-ext-enable redis xdebug   
 
 # common extension
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt intl bcmath mbstring curl xsl soap mysqli pdo pdo_mysql pdo_pgsql opcache zip calendar
+RUN docker-php-ext-install -j$(nproc) iconv intl bcmath mbstring curl xsl soap mysqli pdo pdo_mysql pdo_pgsql opcache zip calendar
 
 
 RUN touch /usr/local/etc/php/conf.d/custom.ini

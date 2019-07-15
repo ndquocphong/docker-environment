@@ -1,0 +1,175 @@
+version: "3"
+services:
+  sftp:
+    image: atmoz/sftp
+    privileged: true
+    ports:
+      - "8022:22"
+    command: "sftp:pass:33:33:upload"
+    volumes:
+      - "www-data:/home/sftp/upload"
+
+  php-5.6:
+    image: "php-apache-5.6"
+    build: 
+      context: ./php-apache/5.6
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "56:80"
+      - "563:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-5.6:
+    image: "php-apache-xdebug-5.6"
+    build: 
+      context: "./php-apache/5.6"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "560:80"
+      - "5630:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"    
+
+  php-7.0:
+    image: "php-apache-7.0"
+    build: 
+      context: ./php-apache/7.0
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "70:80"
+      - "733:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-7.0:
+    image: "php-apache-xdebug-7.0"
+    build: 
+      context: "./php-apache/7.0"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "700:80"
+      - "7030:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html" 
+
+  php-7.1:
+    image: "php-apache-7.1"
+    build: 
+      context: ./php-apache/7.1
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "71:80"
+      - "713:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-7.1:
+    image: "php-apache-xdebug-7.1"
+    build: 
+      context: "./php-apache/7.1"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "710:80"
+      - "7130:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-7.2:
+    image: "php-apache-7.2"
+    build: 
+      context: ./php-apache/7.2
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "72:80"
+      - "723:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-7.2:
+    image: "php-apache-xdebug-7.2"
+    build: 
+      context: "./php-apache/7.2"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "720:80"
+      - "7230:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"                   
+
+  mysql-5.7:
+    image: mysql:5.7
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "5706:3306"
+    volumes:
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "mysql-5.7-data:/var/lib/mysql"
+      
+  mysql-8.0:
+    image: mysql:8.0
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "8006:3306"
+    volumes:
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "mysql-8.0-data:/var/lib/mysql"
+
+  postgres-11.0:
+    image: postgres:11.0
+    ports:
+      - "1132:5432"
+    volumes:
+      - "postgres-11.0-data:/var/lib/postgresql/data"  
+  
+  postgres-10.0:
+    image: postgres:10.0
+    ports:
+      - "1032:5432"
+    volumes:
+      - "postgres-10.0-data:/var/lib/postgresql/data"  
+
+  redis-5.0:
+    image: redis:5.0
+    ports: 
+      - "5079:6379"   
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"         
+
+volumes:
+  www-data:
+  mysql-5.7-data:
+  mysql-8.0-data:
+  postgres-11.0-data:
+  postgres-10.0-data:  

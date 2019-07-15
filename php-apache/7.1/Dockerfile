@@ -49,11 +49,7 @@ RUN docker-php-ext-configure pcntl --enable-pcntl \
 
 # redis extension
 RUN pecl install redis 
-RUN docker-php-ext-enable redis         
-
-# xdebug extension
-RUN pecl install redis xdebug 
-RUN docker-php-ext-enable redis xdebug   
+RUN docker-php-ext-enable redis
 
 # common extension
 RUN docker-php-ext-install -j$(nproc) iconv mcrypt intl bcmath mbstring curl xsl soap mysqli pdo pdo_mysql pdo_pgsql opcache zip calendar

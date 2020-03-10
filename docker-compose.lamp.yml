@@ -119,7 +119,63 @@ services:
     volumes:
       - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
       - "./php-apache/vhosts:/etc/apache2/vhosts"
-      - "www-data:/var/www/html"                   
+      - "www-data:/var/www/html"  
+
+  php-7.3:
+    image: "php-apache-7.3"
+    build: 
+      context: ./php-apache/7.3
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "73:80"
+      - "733:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-7.3:
+    image: "php-apache-xdebug-7.3"
+    build: 
+      context: "./php-apache/7.3"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "730:80"
+      - "7330:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html" 
+
+  php-7.4:
+    image: "php-apache-7.4"
+    build: 
+      context: ./php-apache/7.4
+      dockerfile: Dockerfile
+    dns: "8.8.4.4"
+    ports:
+      - "74:80"
+      - "743:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"
+
+  php-xdebug-7.4:
+    image: "php-apache-xdebug-7.4"
+    build: 
+      context: "./php-apache/7.4"
+      dockerfile: Dockerfile.xdebug
+    dns: "8.8.4.4"
+    ports:
+      - "740:80"
+      - "7430:443"
+    volumes:
+      - "./php-apache/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+      - "./php-apache/vhosts:/etc/apache2/vhosts"
+      - "www-data:/var/www/html"                         
 
   mysql-5.7:
     image: mysql:5.7

@@ -1,23 +1,25 @@
-FROM php:7.2-apache
+FROM php:7.4-apache
 
 # update latest repository 
 RUN apt-get update -y && apt install -y apt-utils
 
 # common
-RUN apt-get install -y sudo zip unzip curl zlib1g-dev g++ libcurl4-gnutls-dev libpq-dev git vim rsync sshpass bzip2 msmtp
+RUN apt-get install -y sudo zip unzip curl zlib1g-dev g++ libcurl4-gnutls-dev libpq-dev git vim rsync sshpass bzip2 msmtp libzip-dev
 
 # ssh2
 RUN apt-get install -y libssh2-1-dev libssh2-1
-RUN pecl install ssh2-1.1.2
-RUN echo extension=ssh2.so >> /usr/local/etc/php/conf.d/ssh2.ini
+RUN cd /tmp \
+    && git clone https://git.php.net/repository/pecl/networking/ssh2.git \
+    && cd /tmp/ssh2/ \
+    && .travis/build.sh \
+    && docker-php-ext-enable ssh2
 
 # memcached extension
 RUN apt-get install -y libz-dev libmemcached-dev
-RUN pecl install memcached-3.0.3
-RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 
 # gd extension
 RUN apt-get install -y \
+  libonig-dev \
   libpng-dev \
   libfreetype6-dev \
   libjpeg-dev \
@@ -27,10 +29,10 @@ RUN apt-get install -y \
   libmcrypt-dev \
   libwebp-dev  # php >=7.0 (use libvpx for php <7.0)
 RUN docker-php-ext-configure gd \
-    --with-freetype-dir=/usr/include/ \
-    --with-jpeg-dir=/usr/include/ \
-    --with-xpm-dir=/usr/include \
-    --with-webp-dir=/usr/include/ # php >=7.0 (use libvpx for php <7.0)
+    --with-freetype=/usr/include/ \
+    --with-jpeg=/usr/include/ \
+    --with-xpm=/usr/include \
+    --with-webp=/usr/include/ # php >=7.0 (use libvpx for php <7.0)
 RUN docker-php-ext-install gd
 
 # intl extension

@@ -1,0 +1,20 @@
+version: "3"
+services:
+  php-7.4-apache:
+    image: phongndq/php:7.4-apache
+    ports:
+      - 8074:80
+      - 44374:443
+      - "2274:22"
+    volumes:
+      - www-data:/var/www/html
+    command: bash -c "service ssh start && service apache2 reload & apache2-foreground"
+  code-server-3.5:
+    image: phongndq/code-server:3.5.0
+    ports:
+      - 8080:8080
+    volumes:
+       - www-data:/home/www-data
+    user: "www-data:www-data" 
+volumes:
+  www-data:
